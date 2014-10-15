@@ -1,6 +1,6 @@
 (function() {
   $(function() {
-    var convertCanvasToImage, convertImageToCanvas, getHeroData, getMonsterData, heroData, initializeForm, scaleImageToFit, wrapText;
+    var convertCanvasToImage, convertImageToCanvas, getHeroData, getMonsterData, heroData, initializeForm, mainCard, scaleImageToFit, wrapText;
     $.urlParam = function(name) {
       var results;
       results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -19,6 +19,7 @@
     $("#skill-name").val($.urlParam('skill-name'));
     $("#skill-description").val($.urlParam('skill-description'));
     initializeForm();
+    mainCard = $("#hero-card");
     getMonsterData = function() {
       return {
         name: $("#monster-name").val(),
@@ -49,7 +50,7 @@
     $("#hero-form").submit(function(e) {
       e.preventDefault();
       heroData = getHeroData();
-      $("#hero").replaceWith('<img id="hero-card" src="images/hero-large.jpg" alt="hero card" class="offscreen" />');
+      $("#hero").replaceWith(mainCard);
       $("#hero-src").replaceWith('<img src="' + heroData.character + '" id="hero-src" class="offscreen" />');
       return $("#hero-src").load(function() {
         var newCanvas;
