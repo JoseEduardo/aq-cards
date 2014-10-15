@@ -1,0 +1,83 @@
+$icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
+// bower:scss
+@import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
+// endbower
+
+@font-face {
+    font-family: 'kingthings_petrockregular';
+    src: url('fonts/kingthings_petrock-webfont.eot');
+    src: url('fonts/kingthings_petrock-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/kingthings_petrock-webfont.woff2') format('woff2'),
+         url('fonts/kingthings_petrock-webfont.woff') format('woff'),
+         url('fonts/kingthings_petrock-webfont.ttf') format('truetype'),
+         url('fonts/kingthings_petrock-webfont.svg#kingthings_petrockregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'kingthings_calligraphica_2Rg';
+    src: url('fonts/kingthings_calligraphica_2-webfont.eot');
+    src: url('fonts/kingthings_calligraphica_2-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/kingthings_calligraphica_2-webfont.woff2') format('woff2'),
+         url('fonts/kingthings_calligraphica_2-webfont.woff') format('woff'),
+         url('fonts/kingthings_calligraphica_2-webfont.ttf') format('truetype'),
+         url('fonts/kingthings_calligraphica_2-webfont.svg#kingthings_calligraphica_2Rg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'merienda_oneregular';
+    src: url('fonts/meriendaone-regular-webfont.eot');
+    src: url('fonts/meriendaone-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/meriendaone-regular-webfont.woff2') format('woff2'),
+         url('fonts/meriendaone-regular-webfont.woff') format('woff'),
+         url('fonts/meriendaone-regular-webfont.ttf') format('truetype'),
+         url('fonts/meriendaone-regular-webfont.svg#merienda_oneregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+.row {
+  margin-bottom: 30px;
+}
+
+
+/* Space out content a bit */
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background: #0c640e url("../images/felt.png")
+}
+
+.offscreen {
+  position: absolute;
+  left: -2000px;
+}
+
+canvas {
+  width: 520px;
+  height: 373px;
+  border: 1px solid #333;
+  border-radius: 20px;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.6);
+}
+
+.center {
+  text-align: center;
+}
+
+
+.form-area {
+  background: white;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 1px solid #333;
+  border-radius: 10px;
+}
