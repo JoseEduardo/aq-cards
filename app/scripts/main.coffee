@@ -16,6 +16,8 @@ $( ->
 
 	initializeForm()
 
+	mainCard = $("#hero-card")
+
 	# monster model
 	getMonsterData = ->
 		return {
@@ -53,7 +55,7 @@ $( ->
 		e.preventDefault()
 		
 		heroData = getHeroData()
-		$("#hero").replaceWith('<img id="hero-card" src="images/hero-large.jpg" alt="hero card" class="offscreen" />')
+		$("#hero").replaceWith(mainCard)
 		$("#hero-src").replaceWith('<img src="' + heroData.character + '" id="hero-src" class="offscreen" />')
 		$("#hero-src").load () ->
 			newCanvas = convertImageToCanvas(document.getElementById("hero-card"), document.getElementById("hero-src"), heroData)
