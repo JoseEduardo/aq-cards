@@ -1,6 +1,5 @@
 {
   "name": "aq-cards",
-  "version": "0.1",
   "description": "A tool for creating custom cards for the board game Arcadia Quest",
   "author": "Tev Kaber <tev@tev.net>",
   "repository": {
