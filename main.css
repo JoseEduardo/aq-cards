@@ -1,0 +1,115 @@
+@font-face {
+    font-family: 'kingthings_petrockregular';
+    src: url('fonts/kingthings_petrock-webfont.eot');
+    src: url('fonts/kingthings_petrock-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/kingthings_petrock-webfont.woff2') format('woff2'),
+         url('fonts/kingthings_petrock-webfont.woff') format('woff'),
+         url('fonts/kingthings_petrock-webfont.ttf') format('truetype'),
+         url('fonts/kingthings_petrock-webfont.svg#kingthings_petrockregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+.row {
+  margin-bottom: 30px;
+}
+
+
+.drop-area {
+  border: 2px dashed #333;
+  height: 200px;
+  width: 200px;
+  text-align: center;
+}
+
+.drop-area:hover {
+  border-color: #0c640e;
+}
+
+.drop-area img {
+  max-width:100%;
+  max-height:100%;
+}
+
+/* Space out content a bit */
+body {
+  padding-bottom: 20px;
+  background: #0c640e url("img/felt.png")
+}
+
+header {
+  color: white;
+}
+header a {
+  color: white;
+}
+header h3 {
+  font-family: kingthings_petrockregular;
+  font-size: 42px;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.6);
+}
+
+#hero-cards img,
+#monster-cards img,
+#quest-cards img,
+#upgrade-cards img {
+  margin-top:20px;
+  border: 1px solid #333;
+  border-radius: 20px;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.6);
+}
+
+#hero-cards img {
+  width:600px; 
+}
+
+#monster-cards img {
+  width:430px; 
+}
+
+#quest-cards img {
+  width:450px;
+}
+
+#upgrade-cards img {
+  width:300px;
+}
+
+
+footer {
+  color: white;
+  text-align: center;
+}
+
+.offscreen {
+  position: absolute;
+  left: -2000px;
+}
+
+.offscreen img {
+  display: block;
+}
+
+canvas {
+  width: 520px;
+  height: 373px;
+  border: 1px solid #333;
+  border-radius: 20px;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.6);
+}
+
+.center {
+  text-align: center;
+}
+
+
+.form-area {
+  background: white;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 1px solid #333;
+  border-radius: 10px;
+}

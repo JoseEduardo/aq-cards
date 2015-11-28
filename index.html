@@ -1,0 +1,277 @@
+<!doctype html>
+<html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8">
+    <title>Arcadia Quest Card Builder</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="main.css">
+    
+  </head>
+  <body>
+    <script type="text/javascript">
+      (function() {
+          var path = '//easy.myfonts.net/v2/js?sid=2467(font-family=Highlander+Book)&sid=215084(font-family=Highlander+Std+Book)&sid=215086(font-family=Highlander+Std+Bold)&sid=215088(font-family=Highlander+Std+Medium)&key=9maOlgn9fR',
+              protocol = ('https:' == document.location.protocol ? 'https:' : 'http:'),
+              trial = document.createElement('script');
+          trial.type = 'text/javascript';
+          trial.async = true;
+          trial.src = protocol + path;
+          var head = document.getElementsByTagName("head")[0];
+          head.appendChild(trial);
+      })();
+  </script>
+
+    
+    <div class="container">
+      <header>
+        <ul class="nav nav-pills pull-right" id="main-selection">
+          <li class="active"><a href="javascript:void(0)" data-panel="hero">Hero</a></li>
+          <li><a href="javascript:void(0)" data-panel="monster">Monster</a></li>
+          <li><a href="javascript:void(0)" data-panel="quest">Quest</a></li>
+          <li><a href="javascript:void(0)" data-panel="upgrade">Upgrade</a></li>
+        </ul>
+        <h3>Arcadia Quest Card Builder</h3>
+      </header>
+
+      <div class="offscreen">
+        <img id="monster-melee-src" crossOrigin="anonymous" src="img/monster-melee.png" alt="melee image" class="offscreen" />
+        <img id="monster-ranged-src" crossOrigin="anonymous" src="img/monster-ranged.png" alt="ranged image" class="offscreen" />
+        <img id="monster-defense-src" crossOrigin="anonymous" src="img/monster-defense.png" alt="defense image" class="offscreen" />
+
+        <div style="font-family: kingthings_petrockregular" class="offscreen">.</div>
+        <div style="font-family: 'Highlander Std Book'" class="offscreen">.</div>
+        <div style="font-family: 'Highlander Std Bold'" class="offscreen">.</div>
+
+        <img id="placeholder-hero" class="placeholder-image" src="img/hero.jpg" />
+        <img id="placeholder-monster" class="placeholder-image" src="img/monster-level-1.jpg" />
+        <img id="placeholder-quest" class="placeholder-image" src="img/quest.jpg" />
+        <img id="placeholder-upgrade" class="placeholder-image" src="img/upgrade-melee.jpg" />
+      </div>
+
+
+      <div class="row generator-panel" id="hero-generator">
+        <div id="hero-cards" class="col-xs-12 col-md-7 center"></div>
+        <div class="col-xs-12 col-md-5 form-area">
+        <form method="get" action="/" id="hero-form" role="form">
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="hero-drop">Hero Image (drag and drop, ideal size 500x500)</label>
+            <div class="drop-area" id="hero-drop"></div>
+          </div>
+          
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="hero-name">Hero Name</label>
+            <input type="text" class="form-control" name="hero-name" id="hero-name" value="Greensleeves">
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="defense">Defense</label>
+            <input type="text" class="form-control" name="defense" id="defense" value="2">
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="health">Health</label>
+            <input type="text" class="form-control" name="health" id="health" value="4">
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="skill-name">Ability Name</label>
+            <input type="text" class="form-control" name="skill-name" id="skill-name" value="Bow Mastery">
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="skill-description">Ability Description</label>
+            <textarea class="form-control" name="skill-description" id="skill-description" rows="3">When attacking with a Bow attack card, each critical deals one additional hit.</textarea>
+          </div>
+          <div class="form-group col-xs-12">
+            <input type="submit" value="Generate Card" class="btn btn-primary btn-lg" />
+          </div>
+        </form>
+        </div>
+      </div>
+
+      <div class="row generator-panel" id="monster-generator">
+        <div id="monster-cards" class="col-xs-12 col-md-7 center"></div>
+      
+        <div class="col-xs-12 col-md-5 form-area">
+        <form id="monster-form" role="form">
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="monster-drop">Monster Image (drag and drop, ideal size 720x510)</label>
+            <div class="drop-area" id="monster-drop"></div>
+          </div>
+          
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="monster-name">Monster Name</label>
+            <input type="text" class="form-control" id="monster-name" value="Evil Greensleeves">
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="monster-tier">Monster Tier</label>
+            <select class="form-control" id="monster-tier">
+              <option value="Minor Minion">Minor Minion</option>
+              <option value="Major Minion">Major Minion</option>
+              <option value="Minor Villian">Minor Villain</option>
+              <option value="Major Villain">Major Villain</option>
+            </select>
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="monster-level">Level</label>
+            <select class="form-control" id="monster-level">
+              <option value="1">1</option>
+              <option value="2-3">2-3</option>
+              <option value="4-5">4-5</option>
+              <option value="6">6</option>
+            </select>
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="monster-attack-type">Attack Type</label>
+            <select class="form-control" id="monster-attack-type">
+              <option value="Melee">Melee</option>
+              <option value="Ranged">Ranged</option>
+            </select>
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="monster-defense">Defense</label>
+            <input type="text" class="form-control" id="monster-defense" value="1">
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="monster-health">Health</label>
+            <input type="text" class="form-control" id="monster-health" value="2">
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="monster-overkill">Overkill</label>
+            <input type="text" class="form-control" id="monster-overkill" value="4">
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="monster-reward">Reward</label>
+            <input type="text" class="form-control" id="monster-reward" value="2">
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="monster-movement">Movement</label>
+            <input type="text" class="form-control" id="monster-movement" value="2">
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="monster-attack">Attack</label>
+            <input type="text" class="form-control" id="monster-attack" value="3">
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="monster-skill-name">Ability Name</label>
+            <input type="text" class="form-control" id="monster-skill-name" value="Bow Punch">
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="monster-skill-description">Ability Description</label>
+            <textarea class="form-control" id="monster-skill-description" rows="3">When Greensleeves is hit with a crit, he deals 1 wound to the attacking hero, regardless of overkill.</textarea>
+          </div>
+          <div class="form-group col-xs-12">
+            <input type="submit" value="Generate Card" class="btn btn-primary btn-lg" />
+          </div>
+        </form>
+        </div>
+      </div>
+
+      <div class="row generator-panel" id="quest-generator">
+        <div id="quest-cards" class="col-xs-12 col-md-7 center">
+        </div>
+
+        <div class="col-xs-12 col-md-5 form-area">
+        <form method="get" action="/" id="quest-form" role="form">
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="quest-drop">Quest Image (drag and drop, ideal size 500x500)</label>
+            <div class="drop-area" id="quest-drop"></div>
+          </div>
+          
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="quest-name">Quest Name</label>
+            <input type="text" class="form-control" name="quest-name" id="quest-name" value="Kill Greensleeves">
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="quest-description">Quest Description</label>
+            <textarea class="form-control" name="quest-description" id="quest-description" rows="3">When wounded and attacking with a Sword attack card, roll an extra attack die for each wound.</textarea>
+          </div>
+          <div class="form-group col-xs-12">
+            <input type="submit" value="Generate Card" class="btn btn-primary btn-lg" />
+          </div>
+        </form>
+        </div>
+      </div>
+
+      <div class="row generator-panel" id="upgrade-generator">
+        <div id="upgrade-cards"class="col-xs-12 col-md-7 center">
+        </div>
+
+        <div class="col-xs-12 col-md-5 form-area">
+        <form method="get" action="/" id="upgrade-form" role="form">
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="upgrade-drop">Upgrade Image (drag and drop, ideal size 500x500)</label>
+            <div class="drop-area" id="upgrade-drop"></div>
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="upgrade-name">Upgrade Name</label>
+            <input type="text" class="form-control" name="upgrade-name" id="upgrade-name" value="Distracting Treasure">
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="upgrade-subname">Reward Location</label>
+            <input type="text" class="form-control" name="health" id="upgrade-subname" value="">
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="upgrade-cost">Cost</label>
+            <input type="text" class="form-control" name="health" id="upgrade-cost" value="2">
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="upgrade-type">Upgrade Type</label>
+            <select class="form-control" id="upgrade-type">
+              <option value="Permanent">Permanent</option>
+              <option value="Melee">Melee Attack</option>
+              <option value="Ranged">Ranged Attack</option>
+              <option value="Boost">Boost</option>
+            </select>
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="upgrade-level">Level</label>
+            <select class="form-control" id="upgrade-level">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="upgrade-category">Category</label>
+            <input type="text" class="form-control" name="health" id="upgrade-category" value="Gear">
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="upgrade-attack">Attack</label>
+            <input type="text" class="form-control" name="health" id="upgrade-attack" value="">
+          </div>
+          <div class="form-group col-xs-12 col-sm-6">
+            <label for="upgrade-description">Upgrade Description</label>
+            <textarea class="form-control" name="skill-description" id="upgrade-description" rows="3">Spend 1 coin to prevent all damage from an attack.</textarea>
+          </div>
+          <div class="form-group col-xs-12">
+            <input type="submit" value="Generate Card" class="btn btn-primary btn-lg" />
+          </div>
+        </form>
+        </div>
+      </div>
+
+      <footer>
+        This is a fan site made by Tev Kaber. <a href="http://arcadiaquest.com">Arcadia Quest</a> is © Spaghetti Western Games / Cool Mini or Not.
+      </footer>
+
+    </div>
+ 
+    <script src="jquery-2.1.4.min.js"></script>
+    <script src="main.js"></script>
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <script>
+      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+      e.src='https://www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+      ga('create','UA-XXXXX-X');ga('send','pageview');
+    </script>
+  </body>
+</html>
