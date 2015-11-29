@@ -11,3 +11,4 @@ If you are on a Mac, you can download this project, and in the command line
 cd aq-cards
 python -m SimpleHTTPServer
 ```
+Then go to http://0.0.0.0:8000 in your web browser.
