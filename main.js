@@ -253,6 +253,26 @@ $(function() {
 		var centerX = canvas.width / 2;
 		var context = canvas.getContext("2d");
 		var yOffset = 0;
+		var upgradeOverlay;
+		var nameColor = '#a72a0c';
+		switch (upgradeData.type) {
+			case "Melee":
+				nameColor = '#B83D2B';
+				upgradeOverlay = document.getElementById("upgrade-melee-src");
+				break;
+			case "Ranged":
+				nameColor = '#B83D2B';
+				upgradeOverlay = document.getElementById("upgrade-ranged-src");
+				break;
+			case "Boost":
+				nameColor = '#32531E';
+				upgradeOverlay = document.getElementById("upgrade-boost-src");
+				break;
+			case "Permanent":
+				nameColor = '#171345';
+				upgradeOverlay = document.getElementById("upgrade-permanent-src");
+				break;
+		}
 
 		// background
 		context.drawImage(blankCard, 0, 0);
@@ -261,31 +281,15 @@ $(function() {
 		if (document.getElementById('upgrade-drop').childNodes.length && document.getElementById('upgrade-drop').firstChild.tagName === 'IMG') {
 			var upgradeImage = new Image();
 			upgradeImage.src = document.getElementById("upgrade-drop").firstChild.src;
-			var upgradeW = 300;
-			var upgradeH = 300;
+			var upgradeW = 488;
+			var upgradeH = 324;
 			var resizedImage = scaleImageToFit(upgradeImage.width, upgradeImage.height, upgradeW, upgradeH);
-			var upgradeX = ((upgradeW - resizedImage[0]) / 2) + 70;
-			var upgradeY = ((upgradeH - resizedImage[1]) / 2) + 130;
+			var upgradeX = ((upgradeW - resizedImage[0]) / 2);
+			var upgradeY = ((upgradeH - resizedImage[1]) / 2) + 121;
 			context.drawImage(upgradeImage, 0, 0, upgradeImage.width, upgradeImage.height, upgradeX, upgradeY, resizedImage[0], resizedImage[1]);
+			context.drawImage(upgradeOverlay, 0, 0);
 		}
 		
-
-		var nameColor = '#a72a0c';
-		switch (upgradeData.type) {
-			case "Melee":
-				nameColor = '#B83D2B';
-				break;
-			case "Ranged":
-				nameColor = '#B83D2B';
-				break;
-			case "Boost":
-				nameColor = '#32531E';
-				break;
-			case "Permanent":
-				nameColor = '#171345';
-				break;
-		}
-
 		if (upgradeData.subname !== '') {
 			yOffset = -10;
 		}
