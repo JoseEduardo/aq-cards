@@ -500,6 +500,91 @@ $(function() {
 		pickPlaceholder('upgrade');
 	});
 
+
+	var imageContents = function imageContents(targetId, imageObj){
+		var area = document.getElementById(targetId);
+		while (area.firstChild) {
+			area.removeChild(area.firstChild);
+		}
+		area.appendChild(imageObj);
+	};
+
+	function heroFileSelect(evt) {
+		var files = evt.target.files;
+		var f = files[0];
+		console.log(f);
+		if (f.type.match('image.*')) {
+			var reader = new FileReader();
+			reader.onload = (function(theFile) {
+				return function(e) {
+				  var img = new Image();
+				  img.src = e.target.result;
+				  imageContents('hero-drop', img);
+				};
+			})(f);
+			reader.readAsDataURL(f);
+		}
+		
+	}
+	document.getElementById('hero-image').addEventListener('change', heroFileSelect, false);
+
+	function monsterFileSelect(evt) {
+		var files = evt.target.files;
+		var f = files[0];
+		console.log(f);
+		if (f.type.match('image.*')) {
+			var reader = new FileReader();
+			reader.onload = (function(theFile) {
+				return function(e) {
+				  var img = new Image();
+				  img.src = e.target.result;
+				  imageContents('monster-drop', img);
+				};
+			})(f);
+			reader.readAsDataURL(f);
+		}
+		
+	}
+	document.getElementById('monster-image').addEventListener('change', monsterFileSelect, false);
+
+	function questFileSelect(evt) {
+		var files = evt.target.files;
+		var f = files[0];
+		console.log(f);
+		if (f.type.match('image.*')) {
+			var reader = new FileReader();
+			reader.onload = (function(theFile) {
+				return function(e) {
+				  var img = new Image();
+				  img.src = e.target.result;
+				  imageContents('quest-drop', img);
+				};
+			})(f);
+			reader.readAsDataURL(f);
+		}
+		
+	}
+	document.getElementById('quest-image').addEventListener('change', questFileSelect, false);
+
+	function upgradeFileSelect(evt) {
+		var files = evt.target.files;
+		var f = files[0];
+		console.log(f);
+		if (f.type.match('image.*')) {
+			var reader = new FileReader();
+			reader.onload = (function(theFile) {
+				return function(e) {
+				  var img = new Image();
+				  img.src = e.target.result;
+				  imageContents('upgrade-drop', img);
+				};
+			})(f);
+			reader.readAsDataURL(f);
+		}
+		
+	}
+	document.getElementById('upgrade-image').addEventListener('change', upgradeFileSelect, false);
+
 	// Hero drag + drop
 	var monsterDrop = document.getElementById("monster-drop");
 	monsterDrop.addEventListener("dragover", function (evt) {
@@ -515,12 +600,7 @@ $(function() {
 				reader.onload = function (evt) {
 					var dropImage = new Image();
 					dropImage.src = evt.target.result;
-					while (monsterDrop.firstChild) {
-					    monsterDrop.removeChild(monsterDrop.firstChild);
-					}
-					monsterDrop.appendChild(dropImage);
-					//img.src = evt.target.result;
-					//console.log(evt.target.result);
+					imageContents('monster-drop', dropImage);
 				};
 				reader.readAsDataURL(file);
 			}
@@ -543,12 +623,7 @@ $(function() {
 				reader.onload = function (evt) {
 					var dropImage = new Image();
 					dropImage.src = evt.target.result;
-					while (heroDrop.firstChild) {
-					    heroDrop.removeChild(heroDrop.firstChild);
-					}
-					heroDrop.appendChild(dropImage);
-					//img.src = evt.target.result;
-					//console.log(evt.target.result);
+					imageContents('hero-drop', dropImage);
 				};
 				reader.readAsDataURL(file);
 			}
@@ -571,12 +646,7 @@ $(function() {
 				reader.onload = function (evt) {
 					var dropImage = new Image();
 					dropImage.src = evt.target.result;
-					while (questDrop.firstChild) {
-					    questDrop.removeChild(questDrop.firstChild);
-					}
-					questDrop.appendChild(dropImage);
-					//img.src = evt.target.result;
-					//console.log(evt.target.result);
+					imageContents('quest-drop', dropImage);
 				};
 				reader.readAsDataURL(file);
 			}
@@ -599,12 +669,7 @@ $(function() {
 				reader.onload = function (evt) {
 					var dropImage = new Image();
 					dropImage.src = evt.target.result;
-					while (upgradeDrop.firstChild) {
-					    upgradeDrop.removeChild(upgradeDrop.firstChild);
-					}
-					upgradeDrop.appendChild(dropImage);
-					//img.src = evt.target.result;
-					//console.log(evt.target.result);
+					imageContents('upgrade-drop', dropImage);
 				};
 				reader.readAsDataURL(file);
 			}
