@@ -1,3 +1,5 @@
+'use strict';
+
 $(function() {
 	// ---- CANVAS UTILS ----
 
@@ -13,22 +15,75 @@ $(function() {
 
 	// Wrap canvas text
 	var wrapText = function wrapText(context, text, x, y, maxWidth, lineHeight) {
+		context.textBaseline = 'top';
+		context.textAlign = 'center';
 		var words = text.split(' ');
+		var xOffset = x;
 		var line = '';
+		var lineWidth = 0;
 		for (var n = 0; n < words.length; n++) {
 			var testLine = line + words[n] + ' ';
 			var metrics = context.measureText(testLine);
-			var testWidth = metrics.width;
+			var testWidth = Math.round(metrics.width);
 			if (testWidth > maxWidth && n > 0) {
-				context.fillText(line, x, y);
+				//context.fillText(line, x, y);
+				lineWidth = Math.round(context.measureText(line).width);
+				xOffset = x + ((maxWidth - lineWidth) / 2);
+				drawTextWithImageReplacement(context, line, { x: xOffset, y: y });
+				//console.log(line,testWidth,x,xOffset,testWidth,maxWidth);
 				line = words[n] + ' ';
 				y += lineHeight;
 			} else {
 				line = testLine;
 			}
 		}
-		context.fillText(line, x, y);
+		//context.fillText(line, x, y);
+		lineWidth = Math.round(context.measureText(line).width);
+		xOffset = x + ((maxWidth - lineWidth) / 2);
+		drawTextWithImageReplacement(context, line, { x: xOffset, y: y });
+		console.log(line,lineWidth,x,xOffset,lineWidth,maxWidth);
 	};
+
+	var drawTextWithImageReplacement = function drawTextWithImageReplacement(context, value, options) {
+		context.textAlign = 'left';
+        var words = value.split(' '), wordOffset = 0, imageOffset = -5;
+        words.forEach(function (word) {
+            var wordWidth = context.measureText(word).width;
+            if (Object.keys(wordbank).indexOf(word) === -1) {
+                context.fillText(word, options.x + wordOffset, options.y);
+            } else {
+            	if (context.fillStyle === darkText) {
+            		context.drawImage(
+	                    wordbank[word].darkImage,
+	                    options.x + wordOffset,
+	                    options.y + imageOffset,
+	                    wordWidth,
+	                    wordbank[word].height / (wordbank[word].width / wordWidth)
+	                );
+            	} else {
+            		context.drawImage(
+	                    wordbank[word].image,
+	                    options.x + wordOffset,
+	                    options.y + imageOffset,
+	                    wordWidth,
+	                    wordbank[word].height / (wordbank[word].width / wordWidth)
+	                );
+            	}
+                
+            }
+            wordOffset += wordWidth + context.measureText(' ').width;
+        });
+    }
+
+	var wordbank = {
+        '(*)': {
+            image: document.getElementById("crit-white-src"),
+            darkImage: document.getElementById("crit-black-src"),
+            width: 400,
+            height: 400
+        }
+    };
+	
 
 	var darkText = '#222222';
 	var numberFont = '56pt "Highlander Std Bold"';
@@ -101,10 +156,10 @@ $(function() {
 
 		// description
 		context.fillStyle = 'white';
-		context.font = '24pt "Highlander Std Book"';
+		context.font = '20pt "Highlander Std Book"';
 		var maxWidth = 300;
 		var lineHeight = 36;
-		var x = 298;
+		var x = 145;
 		var y = 386;
 		var text = heroData.description;
 		wrapText(context, text, x, y, maxWidth, lineHeight);
@@ -189,11 +244,11 @@ $(function() {
 		context.fillText(monsterData.ability, centerX, 773);
 		// description
 		context.fillStyle = 'white';
-		context.font = '24pt "Highlander Std Book"';
-		var maxWidth = 500;
+		context.font = '20pt "Highlander Std Book"';
+		var maxWidth = 550;
 		var lineHeight = 36;
-		var x = centerX;
-		var y = 840;
+		var x = 105;
+		var y = 820;
 		var text = monsterData.description;
 		wrapText(context, text, x, y, maxWidth, lineHeight);
 
@@ -235,7 +290,7 @@ $(function() {
 		context.font = '24pt "Highlander Std Book"';
 		var maxWidth = 500;
 		var lineHeight = 36;
-		var x = centerX;
+		var x = 165;
 		var y = 1010;
 		var text = questData.description;
 		wrapText(context, text, x, y, maxWidth, lineHeight);
@@ -354,7 +409,7 @@ $(function() {
 		context.font = '20pt "Highlander Std Book"';
 		var maxWidth = 360;
 		var lineHeight = 32;
-		var x = centerX;
+		var x = 65;
 		var y = 532 + yOffset;
 		var text = upgradeData.description;
 		wrapText(context, text, x, y, maxWidth, lineHeight);
@@ -457,6 +512,7 @@ $(function() {
 	};
 
 	var pickPlaceholder = function pickPlaceholder(kind) {
+		var imageSrc = '';
 		if (kind === 'monster') {
 			switch ($('#monster-level').val()) {
 				case "1":
