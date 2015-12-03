@@ -13,6 +13,37 @@ $(function() {
 		return [imgWidth * ratio, imgHeight * ratio];
 	};
 
+	// Calculate number of lines/height (wrap dryrun)
+	var calcSpace = function (context, text, x, y, maxWidth, lineHeight) {
+		var cvs = $('<canvas width="1000" height="1000"></canvas>');
+		var ctx = cvs.getContext('2d');
+		ctx.font = context.font;
+		var words = text.split(' ');
+		var lineCount = 0;
+		var line = '';
+		var lineWidth = 0;
+		for (var n = 0; n < words.length; n++) {
+			var testLine = line + words[n] + ' ';
+			var metrics = ctx.measureText(testLine);
+			var testWidth = Math.round(metrics.width);
+			if (testWidth > maxWidth && n > 0) {
+				line = words[n] + ' ';
+				y += lineHeight;
+				lineCount++;
+			} else {
+				line = testLine;
+			}
+		}
+		lineCount++;
+		y += lineHeight;
+
+		return y;
+	}
+
+	var measureLine = function (context, line) {
+		return Math.round(context.measureText(line).width);
+	}
+
 	// Wrap canvas text
 	var wrapText = function wrapText(context, text, x, y, maxWidth, lineHeight) {
 		context.textBaseline = 'top';
@@ -26,22 +57,18 @@ $(function() {
 			var metrics = context.measureText(testLine);
 			var testWidth = Math.round(metrics.width);
 			if (testWidth > maxWidth && n > 0) {
-				//context.fillText(line, x, y);
-				lineWidth = Math.round(context.measureText(line).width);
+				lineWidth = measureLine(context,line);
 				xOffset = x + ((maxWidth - lineWidth) / 2);
 				drawTextWithImageReplacement(context, line, { x: xOffset, y: y });
-				//console.log(line,testWidth,x,xOffset,testWidth,maxWidth);
 				line = words[n] + ' ';
 				y += lineHeight;
 			} else {
 				line = testLine;
 			}
 		}
-		//context.fillText(line, x, y);
-		lineWidth = Math.round(context.measureText(line).width);
+		lineWidth = measureLine(context,line);;
 		xOffset = x + ((maxWidth - lineWidth) / 2);
 		drawTextWithImageReplacement(context, line, { x: xOffset, y: y });
-		console.log(line,lineWidth,x,xOffset,lineWidth,maxWidth);
 	};
 
 	var drawTextWithImageReplacement = function drawTextWithImageReplacement(context, value, options) {
@@ -52,35 +79,44 @@ $(function() {
             if (Object.keys(wordbank).indexOf(word) === -1) {
                 context.fillText(word, options.x + wordOffset, options.y);
             } else {
-            	if (context.fillStyle === darkText) {
-            		context.drawImage(
-	                    wordbank[word].darkImage,
-	                    options.x + wordOffset,
-	                    options.y + imageOffset,
-	                    wordWidth,
-	                    wordbank[word].height / (wordbank[word].width / wordWidth)
-	                );
-            	} else {
-            		context.drawImage(
-	                    wordbank[word].image,
-	                    options.x + wordOffset,
-	                    options.y + imageOffset,
-	                    wordWidth,
-	                    wordbank[word].height / (wordbank[word].width / wordWidth)
-	                );
-            	}
-                
+            	var ww = context.measureText('(b)').width
+        		context.drawImage(
+                    wordbank[word].image,
+                    options.x + wordOffset,
+                    options.y + imageOffset,
+                    ww,
+                    wordbank[word].height / (wordbank[word].width / ww)
+                );
             }
             wordOffset += wordWidth + context.measureText(' ').width;
         });
     }
 
 	var wordbank = {
-        '(*)': {
-            image: document.getElementById("crit-white-src"),
-            darkImage: document.getElementById("crit-black-src"),
-            width: 400,
-            height: 400
+        '(c)': {
+            image: document.getElementById("symbol-crit-src"),
+            width: 320,
+            height: 320
+        },
+        '(m)': {
+            image: document.getElementById("symbol-melee-src"),
+            width: 320,
+            height: 320
+        },
+        '(r)': {
+            image: document.getElementById("symbol-ranged-src"),
+            width: 320,
+            height: 320
+        },
+        '(b)': {
+            image: document.getElementById("symbol-block-src"),
+            width: 320,
+            height: 320
+        },
+        '(d)': {
+            image: document.getElementById("symbol-critblock-src"),
+            width: 320,
+            height: 320
         }
     };
 	
@@ -160,7 +196,7 @@ $(function() {
 		var maxWidth = 300;
 		var lineHeight = 36;
 		var x = 145;
-		var y = 386;
+		var y = 375;
 		var text = heroData.description;
 		wrapText(context, text, x, y, maxWidth, lineHeight);
 
@@ -641,6 +677,56 @@ $(function() {
 	}
 	document.getElementById('upgrade-image').addEventListener('change', upgradeFileSelect, false);
 
+/* TODO: make reusable code
+
+	// fileselect
+	var fileSelect = function (evt) {
+		var files = evt.target.files;
+		var f = files[0];
+		console.log(f);
+		if (f.type.match('image.*')) {
+			var reader = new FileReader();
+			reader.onload = (function(theFile) {
+				return function(e) {
+				  var img = new Image();
+				  img.src = e.target.result;
+				  imageContents('upgrade-drop', img);
+				};
+			})(f);
+			reader.readAsDataURL(f);
+		}
+	}
+	document.getElementById('hero-image').addEventListener('change', fileSelect, false);
+
+	// drag + drop
+	var dragDrop = function(droptargetId) {
+		var dropTarget = document.getElementById(droptargetId);
+		var dropEvent = function (evt) {
+			var files = evt.dataTransfer.files;
+			if (files.length > 0) {
+				var file = files[0];
+				if (typeof FileReader !== "undefined" && file.type.indexOf("image") != -1) {
+					var reader = new FileReader();
+					reader.onload = function (evt) {
+						var dropImage = new Image();
+						dropImage.src = evt.target.result;
+						imageContents(dropTarget, dropImage);
+					};
+					reader.readAsDataURL(file);
+				}
+			}
+			evt.preventDefault();
+		};
+		dropTarget.addEventListener("dragover", function (evt) { evt.preventDefault(); }, false);
+		dropTarget.addEventListener("drop", dropEvent, false);
+	}
+
+	dragDrop('hero-drop');
+	dragDrop('monster-drop');
+	dragDrop('quest-drop');
+	dragDrop('upgrade-drop');
+*/
+
 	// Hero drag + drop
 	var monsterDrop = document.getElementById("monster-drop");
 	monsterDrop.addEventListener("dragover", function (evt) {
@@ -733,8 +819,7 @@ $(function() {
 		evt.preventDefault();
 	}, false);
 
-
-
+	// initialize things
 	activePanel('hero');
 	pickPlaceholder('monster');
 	pickPlaceholder('upgrade');
