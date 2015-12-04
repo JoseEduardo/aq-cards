@@ -4,6 +4,12 @@
 - Minimalist project structure
 - Drag and drop to add images to cards
 - Multiple card types supported
+- Icons in description text
+-- (c) - critical hit symbol
+-- (m) - melee hit symbol
+-- (r) - ranged hit symbol
+-- (b) - block symbol
+-- (d) - critical block symbol
 
 To install, just host on a webserver.
 If you are on a Mac, you can download this project, and in the command line
