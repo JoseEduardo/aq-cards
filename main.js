@@ -592,7 +592,6 @@ $(function() {
 		pickPlaceholder('upgrade');
 	});
 
-
 	var imageContents = function imageContents(targetId, imageObj){
 		var area = document.getElementById(targetId);
 		while (area.firstChild) {
@@ -601,223 +600,58 @@ $(function() {
 		area.appendChild(imageObj);
 	};
 
-	function heroFileSelect(evt) {
-		var files = evt.target.files;
-		var f = files[0];
-		console.log(f);
-		if (f.type.match('image.*')) {
-			var reader = new FileReader();
-			reader.onload = (function(theFile) {
-				return function(e) {
-				  var img = new Image();
-				  img.src = e.target.result;
-				  imageContents('hero-drop', img);
-				};
-			})(f);
-			reader.readAsDataURL(f);
-		}
-		
-	}
-	document.getElementById('hero-image').addEventListener('change', heroFileSelect, false);
-
-	function monsterFileSelect(evt) {
-		var files = evt.target.files;
-		var f = files[0];
-		console.log(f);
-		if (f.type.match('image.*')) {
-			var reader = new FileReader();
-			reader.onload = (function(theFile) {
-				return function(e) {
-				  var img = new Image();
-				  img.src = e.target.result;
-				  imageContents('monster-drop', img);
-				};
-			})(f);
-			reader.readAsDataURL(f);
-		}
-		
-	}
-	document.getElementById('monster-image').addEventListener('change', monsterFileSelect, false);
-
-	function questFileSelect(evt) {
-		var files = evt.target.files;
-		var f = files[0];
-		console.log(f);
-		if (f.type.match('image.*')) {
-			var reader = new FileReader();
-			reader.onload = (function(theFile) {
-				return function(e) {
-				  var img = new Image();
-				  img.src = e.target.result;
-				  imageContents('quest-drop', img);
-				};
-			})(f);
-			reader.readAsDataURL(f);
-		}
-		
-	}
-	document.getElementById('quest-image').addEventListener('change', questFileSelect, false);
-
-	function upgradeFileSelect(evt) {
-		var files = evt.target.files;
-		var f = files[0];
-		console.log(f);
-		if (f.type.match('image.*')) {
-			var reader = new FileReader();
-			reader.onload = (function(theFile) {
-				return function(e) {
-				  var img = new Image();
-				  img.src = e.target.result;
-				  imageContents('upgrade-drop', img);
-				};
-			})(f);
-			reader.readAsDataURL(f);
-		}
-		
-	}
-	document.getElementById('upgrade-image').addEventListener('change', upgradeFileSelect, false);
-
-/* TODO: make reusable code
-
-	// fileselect
 	var fileSelect = function (evt) {
+		var containerName = evt.target.id.split('-')[0] + '-drop';
+		var imgClassName = evt.target.id.split('-')[0] + '-image';
 		var files = evt.target.files;
 		var f = files[0];
-		console.log(f);
 		if (f.type.match('image.*')) {
 			var reader = new FileReader();
 			reader.onload = (function(theFile) {
 				return function(e) {
 				  var img = new Image();
+				  img.className = imgClassName;
 				  img.src = e.target.result;
-				  imageContents('upgrade-drop', img);
+				  imageContents(containerName, img);
 				};
 			})(f);
 			reader.readAsDataURL(f);
 		}
 	}
-	document.getElementById('hero-image').addEventListener('change', fileSelect, false);
 
-	// drag + drop
-	var dragDrop = function(droptargetId) {
-		var dropTarget = document.getElementById(droptargetId);
-		var dropEvent = function (evt) {
-			var files = evt.dataTransfer.files;
-			if (files.length > 0) {
-				var file = files[0];
-				if (typeof FileReader !== "undefined" && file.type.indexOf("image") != -1) {
-					var reader = new FileReader();
-					reader.onload = function (evt) {
-						var dropImage = new Image();
-						dropImage.src = evt.target.result;
-						imageContents(dropTarget, dropImage);
-					};
-					reader.readAsDataURL(file);
-				}
+	var fileDrop = function (evt) {
+		var files = evt.dataTransfer.files;
+		var evtId = evt.target.id || evt.target.className;
+		var containerName = evtId.split('-')[0] + '-drop';
+		var imgClassName = evtId.split('-')[0] + '-image';
+		if (files.length > 0) {
+			var file = files[0];
+			if (typeof FileReader !== "undefined" && file.type.indexOf("image") != -1) {
+				var reader = new FileReader();
+				reader.onload = function (evt) {
+					var dropImage = new Image();
+					dropImage.className = imgClassName;
+					dropImage.src = evt.target.result;
+					imageContents(containerName, dropImage);
+				};
+				reader.readAsDataURL(file);
 			}
-			evt.preventDefault();
-		};
-		dropTarget.addEventListener("dragover", function (evt) { evt.preventDefault(); }, false);
-		dropTarget.addEventListener("drop", dropEvent, false);
+		}
+		evt.preventDefault();
+	};
+
+	// file events	
+	var fileConfig = function(targetName) {
+		document.getElementById(targetName + '-image').addEventListener('change', fileSelect, false);
+		document.getElementById(targetName + '-drop').addEventListener("dragover", function (evt) { evt.preventDefault(); }, false);
+		document.getElementById(targetName + '-drop').addEventListener("drop", fileDrop, false);
 	}
 
-	dragDrop('hero-drop');
-	dragDrop('monster-drop');
-	dragDrop('quest-drop');
-	dragDrop('upgrade-drop');
-*/
-
-	// Hero drag + drop
-	var monsterDrop = document.getElementById("monster-drop");
-	monsterDrop.addEventListener("dragover", function (evt) {
-		evt.preventDefault();
-	}, false);
-	monsterDrop.addEventListener("drop", function (evt) {
-		var files = evt.dataTransfer.files;
-		if (files.length > 0) {
-			var file = files[0];
-			if (typeof FileReader !== "undefined" && file.type.indexOf("image") != -1) {
-				var reader = new FileReader();
-				// Note: addEventListener doesn't work in Google Chrome for this event
-				reader.onload = function (evt) {
-					var dropImage = new Image();
-					dropImage.src = evt.target.result;
-					imageContents('monster-drop', dropImage);
-				};
-				reader.readAsDataURL(file);
-			}
-		}
-		evt.preventDefault();
-	}, false);
-
-	// Monster drag + drop
-	var heroDrop = document.getElementById("hero-drop");
-	heroDrop.addEventListener("dragover", function (evt) {
-		evt.preventDefault();
-	}, false);
-	heroDrop.addEventListener("drop", function (evt) {
-		var files = evt.dataTransfer.files;
-		if (files.length > 0) {
-			var file = files[0];
-			if (typeof FileReader !== "undefined" && file.type.indexOf("image") != -1) {
-				var reader = new FileReader();
-				// Note: addEventListener doesn't work in Google Chrome for this event
-				reader.onload = function (evt) {
-					var dropImage = new Image();
-					dropImage.src = evt.target.result;
-					imageContents('hero-drop', dropImage);
-				};
-				reader.readAsDataURL(file);
-			}
-		}
-		evt.preventDefault();
-	}, false);
-
-	// Quest drag + drop
-	var questDrop = document.getElementById("quest-drop");
-	questDrop.addEventListener("dragover", function (evt) {
-		evt.preventDefault();
-	}, false);
-	questDrop.addEventListener("drop", function (evt) {
-		var files = evt.dataTransfer.files;
-		if (files.length > 0) {
-			var file = files[0];
-			if (typeof FileReader !== "undefined" && file.type.indexOf("image") != -1) {
-				var reader = new FileReader();
-				// Note: addEventListener doesn't work in Google Chrome for this event
-				reader.onload = function (evt) {
-					var dropImage = new Image();
-					dropImage.src = evt.target.result;
-					imageContents('quest-drop', dropImage);
-				};
-				reader.readAsDataURL(file);
-			}
-		}
-		evt.preventDefault();
-	}, false);
-
-	// Upgrade drag + drop
-	var upgradeDrop = document.getElementById("upgrade-drop");
-	upgradeDrop.addEventListener("dragover", function (evt) {
-		evt.preventDefault();
-	}, false);
-	upgradeDrop.addEventListener("drop", function (evt) {
-		var files = evt.dataTransfer.files;
-		if (files.length > 0) {
-			var file = files[0];
-			if (typeof FileReader !== "undefined" && file.type.indexOf("image") != -1) {
-				var reader = new FileReader();
-				// Note: addEventListener doesn't work in Google Chrome for this event
-				reader.onload = function (evt) {
-					var dropImage = new Image();
-					dropImage.src = evt.target.result;
-					imageContents('upgrade-drop', dropImage);
-				};
-				reader.readAsDataURL(file);
-			}
-		}
-		evt.preventDefault();
-	}, false);
+	// bind file events
+	fileConfig('hero');
+	fileConfig('monster');
+	fileConfig('quest');
+	fileConfig('upgrade');
 
 	// initialize things
 	activePanel('hero');
